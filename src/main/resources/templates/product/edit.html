@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Cap nhat chung cu</title>
+    <style>
+        .image-preview-box {
+            margin-top: 10px;
+            width: 200px;
+            height: 150px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #f9f9f9;
+        }
+        .image-preview-box img { max-width: 100%; max-height: 100%; object-fit: cover; }
+        .category-inline { display: flex; gap: 8px; align-items: center; }
+        .category-inline select { flex: 1; }
+        .modal-overlay {
+            display: none; position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 1000;
+            justify-content: center; align-items: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            background: white; padding: 30px; border-radius: 12px;
+            width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .modal-box h4 { margin-bottom: 16px; }
+        .modal-actions { display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end; }
+    </style>
+</head>
+<body>
+<div layout:fragment="content" class="container body-content">
+    <h2>Cap nhat thong tin chung cu</h2>
+
+    <form th:action="@{/products/save}" th:object="${product}" method="post"
+          enctype="multipart/form-data" class="form">
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="form-group">
+            <label for="name">Ten chung cu:</label>
+            <input class="form-control" type="text" th:field="*{name}" id="name">
+        </div>
+
+        <div class="form-group">
+            <label for="imageFile">Hinh anh:</label>
+            <input class="form-control" type="file" id="imageFile" name="imageFile"
+                   accept="image/*" onchange="previewImage(this)">
+            <div class="image-preview-box" id="previewBox">
+                <img th:if="${product.image != null and !#strings.isEmpty(product.image)}"
+                     th:src="${product.image}" id="currentImg">
+                <span th:unless="${product.image != null and !#strings.isEmpty(product.image)}"
+                      style="color:#aaa;font-size:13px;">Chua co anh</span>
+            </div>
+            <input type="hidden" th:field="*{image}" id="imageHidden">
+        </div>
+
+        <div class="form-group">
+            <label for="price">Gia dich vu / gia thue tham khao:</label>
+            <input class="form-control" type="number" th:field="*{price}" id="price">
+        </div>
+
+        <div class="form-group">
+            <label>Loai chung cu:</label>
+            <div class="category-inline">
+                <select th:field="*{category}" class="form-control" id="category">
+                    <option th:each="category : ${categories}"
+                            th:value="${category.id}" th:text="${category.name}"></option>
+                </select>
+                <button type="button" class="btn btn-outline-primary" onclick="openCategoryModal()">+ Them loai</button>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success mt-2">Cap nhat chung cu</button>
+    </form>
+</div>
+
+<!-- Modal them loai chung cu -->
+<div class="modal-overlay" id="categoryModal">
+    <div class="modal-box">
+        <h4>Them loai chung cu moi</h4>
+        <form th:action="@{/categories/save}" method="post">
+            <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+            <input type="hidden" name="redirect" th:value="'/products/edit/' + ${product.id}">
+            <div class="form-group">
+                <label>Ten loai chung cu:</label>
+                <input type="text" name="name" class="form-control" placeholder="VD: Chung cu cao cap" required>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">Huy</button>
+                <button type="submit" class="btn btn-primary">Luu</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function previewImage(input) {
+        const box = document.getElementById('previewBox');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                box.innerHTML = '<img src="' + e.target.result + '">';
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function openCategoryModal() { document.getElementById('categoryModal').classList.add('active'); }
+    function closeCategoryModal() { document.getElementById('categoryModal').classList.remove('active'); }
+</script>
+</body>
+</html>

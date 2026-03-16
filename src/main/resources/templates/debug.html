@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Debug</title>
+    <style>
+        body { font-family: monospace; padding: 30px; background: #1e1e1e; color: #d4d4d4; }
+        h2 { color: #569cd6; }
+        h3 { color: #4ec9b0; margin-top: 20px; }
+        p, li { color: #ce9178; }
+        b { color: #dcdcaa; }
+    </style>
+</head>
+<body>
+<div th:utext="${debugResult}"></div>
+<hr>
+<p>Usage: <b>/debug?username=YOUR_USERNAME&password=YOUR_PASSWORD</b></p>
+</body>
+</html>

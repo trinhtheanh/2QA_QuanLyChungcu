@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Them chung cu</title>
+    <style>
+        .image-preview-box {
+            margin-top: 10px;
+            width: 200px;
+            height: 150px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #f9f9f9;
+        }
+        .image-preview-box img { max-width: 100%; max-height: 100%; object-fit: cover; }
+    </style>
+</head>
+<body>
+<div layout:fragment="content" class="container body-content">
+    <h2 class="mt-3 mb-3">Them moi chung cu</h2>
+
+    <form th:action="@{/products/save}" th:object="${product}" method="post"
+          enctype="multipart/form-data" class="form" style="max-width:600px;">
+
+        <div class="form-group mb-3">
+            <label for="id"><strong>Ma chung cu (ID):</strong></label>
+            <input class="form-control" type="number" th:field="*{id}" id="id"
+                   placeholder="VD: 101, 202, 303..." min="1" required>
+            <small class="text-muted">Cu dan se nhap ma nay khi dang ky tai khoan.</small>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="name">Ten chung cu:</label>
+            <input class="form-control" type="text" th:field="*{name}" id="name"
+                   placeholder="VD: Chung cu Green Park">
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="imageFile">Hinh anh:</label>
+            <input class="form-control" type="file" id="imageFile" name="imageFile"
+                   accept="image/*" onchange="previewImage(this)">
+            <div class="image-preview-box" id="previewBox">
+                <span style="color:#aaa;font-size:13px;">Chua chon anh</span>
+            </div>
+            <input type="hidden" th:field="*{image}">
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="price">Gia dich vu / gia thue tham khao:</label>
+            <input class="form-control" type="number" th:field="*{price}" id="price"
+                   placeholder="VD: 15000000">
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="category">Loai chung cu:</label>
+            <select th:field="*{category}" class="form-control" id="category">
+                <option th:each="category : ${categories}"
+                        th:value="${category.id}" th:text="${category.name}"></option>
+            </select>
+        </div>
+
+        <a th:href="@{/products}" class="btn btn-secondary">Huy</a>
+        <button type="submit" class="btn btn-success">Luu chung cu</button>
+    </form>
+</div>
+
+<script>
+    function previewImage(input) {
+        const box = document.getElementById('previewBox');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                box.innerHTML = '<img src="' + e.target.result + '">';
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+</body>
+</html>
