@@ -26,7 +26,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/products")
+@RequestMapping("/Apartments")
 public class ChungCuController {
 
     @Autowired
@@ -102,13 +102,13 @@ public class ChungCuController {
                 chungCu.setImage("/uploads/" + fileName);
             } catch (IOException e) {
                 redirectAttributes.addFlashAttribute("error", "Upload anh that bai: " + e.getMessage());
-                return "redirect:/products";
+                return "redirect:/Apartments";
             }
         }
         // Neu khong co file moi, giu nguyen image cu (da duoc bind tu hidden field)
 
         chungCuService.saveChungCu(chungCu);
-        return "redirect:/products";
+        return "redirect:/Apartments";
     }
 
     @GetMapping("/edit/{id}")
@@ -121,6 +121,6 @@ public class ChungCuController {
     @GetMapping("/delete/{id}")
     public String deleteChungCu(@PathVariable("id") Long id) {
         chungCuService.deleteChungCu(id);
-        return "redirect:/products";
+        return "redirect:/Apartments";
     }
 }
