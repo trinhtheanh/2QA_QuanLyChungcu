@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{_layout}">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .tb-card {
+      background: #fff; border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(30,64,175,0.08); overflow: hidden;
+      transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column;
+    }
+    .tb-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(30,64,175,0.16); }
+    .tb-card .card-stripe { height: 4px; width: 100%; }
+    .tb-card .card-stripe.stripe-info { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+    .tb-card .card-stripe.stripe-warning { background: linear-gradient(90deg, #f59e0b, #f97316); }
+    .tb-card .card-stripe.stripe-secondary { background: linear-gradient(90deg, #6b7280, #9ca3af); }
+    .tb-card .card-stripe.stripe-danger { background: linear-gradient(90deg, #dc2626, #f43f5e); }
+    .tb-card .card-inner { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+    .tb-card .card-meta {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: auto; padding-top: 12px; border-top: 1px solid #f1f5f9;
+      font-size: 0.8rem; color: #64748b;
+    }
+    .tb-card h5 { font-weight: 600; font-size: 1rem; margin-bottom: 8px; }
+    .tb-card .card-desc { font-size: 0.88rem; color: #64748b; line-height: 1.6; flex: 1; }
+    .btn-detail {
+      background: linear-gradient(135deg, #1e40af, #0ea5e9);
+      color: #fff; border: none; border-radius: 8px;
+      padding: 6px 16px; font-size: 0.8rem; font-weight: 600;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-detail:hover { color: #fff; filter: brightness(1.1); }
+    .badge-ghim {
+      background: linear-gradient(135deg, #f59e0b, #f97316);
+      color: #fff; font-size: 0.7rem; padding: 3px 8px; border-radius: 6px; font-weight: 600;
+    }
+    .schedule-table {
+      background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(30,64,175,0.08); overflow: hidden;
+    }
+    .schedule-table table { margin: 0; }
+    .schedule-table thead {
+      background: linear-gradient(135deg, #1e40af, #3b82f6); color: #fff;
+    }
+    .schedule-table thead th { font-weight: 600; font-size: 0.9rem; padding: 14px 16px; border: none; }
+    .schedule-table tbody td { padding: 14px 16px; font-size: 0.9rem; vertical-align: middle; border-color: #f1f5f9; }
+    .schedule-table tbody tr:hover { background: #f0f7ff; }
+    .schedule-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 16px; margin-right: 8px;
+      background: #fef3c7; color: #d97706;
+    }
+    .admin-section {
+      background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(30,64,175,0.08); padding: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<div layout:fragment="content" class="container-fluid p-0">
+
+  <!-- ========== NOI DUNG CHINH ========== -->
+  <div class="container" style="padding-top: 24px; padding-bottom: 40px;">
+
+    <!-- 1. LICH BAO TRI / CAT DIEN / NUOC -->
+    <div class="mt-5" th:if="${thongbaos != null}">
+      <div class="section-title">
+        <span class="title-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);"><i class="bi bi-calendar-event-fill"></i></span>
+        Lich bao tri &amp; Cat dien / Nuoc
+      </div>
+      <div class="schedule-table">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th style="width:10%"></th>
+              <th style="width:30%">Noi dung</th>
+              <th style="width:20%">Ngay</th>
+              <th style="width:20%">Thoi gian</th>
+              <th style="width:20%">Khu vuc</th>
+            </tr>
+          </thead>
+          <tbody>
+            <th:block th:each="tb : ${thongbaos}">
+              <tr th:if="${tb.loaiThongBao == 'LICH_CAT_DIEN_NUOC'}">
+                <td><span class="schedule-icon"><i class="bi bi-lightning-charge-fill"></i></span></td>
+                <td><strong th:text="${tb.tieuDe}"></strong></td>
+                <td><i class="bi bi-calendar3 me-1 text-muted"></i><span th:text="${#temporals.format(tb.ngayTao, 'dd/MM/yyyy')}"></span></td>
+                <td><i class="bi bi-clock me-1 text-muted"></i><span th:text="${#temporals.format(tb.ngayTao, 'HH:mm')}"></span></td>
+                <td><span class="badge" style="background:#dbeafe;color:#1d4ed8;"><i class="bi bi-geo-alt-fill me-1"></i>Toan chung cu</span></td>
+              </tr>
+            </th:block>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3. DANH SACH CHUNG CU (phan quyen) -->
+    <div class="mt-5 admin-section">
+      <div class="section-title">
+        <span class="title-icon" style="background: linear-gradient(135deg, #8b5cf6, #a855f7);"><i class="bi bi-building"></i></span>
+        <span sec:authorize="hasRole('ADMIN')">Quan ly chung cu</span>
+        <span sec:authorize="hasRole('USER')">Chung cu cua toi</span>
+        <span sec:authorize="hasRole('MANAGER')">Danh sach chung cu</span>
+      </div>
+
+      <div class="mb-3 d-flex gap-2" sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/products/add}" class="btn btn-primary" style="border-radius:10px;font-weight:600;">
+          <i class="bi bi-plus-circle me-1"></i>Them chung cu moi
+        </a>
+        <a th:href="@{/categories/add}" class="btn btn-outline-secondary" style="border-radius:10px;font-weight:600;">
+          <i class="bi bi-tag me-1"></i>Them loai chung cu
+        </a>
+      </div>
+
+      <div th:if="${products == null or #lists.isEmpty(products)}" class="text-center py-5">
+        <i class="bi bi-house-slash" style="font-size:3rem;color:#cbd5e1;"></i>
+        <p class="mt-3 text-muted">Khong co chung cu nao de hien thi.</p>
+      </div>
+
+      <div class="table-responsive" th:if="${products != null and !#lists.isEmpty(products)}">
+        <table class="table table-hover align-middle">
+          <thead style="background:#f8fafc;">
+          <tr>
+            <th>Ma</th>
+            <th>Ten chung cu</th>
+            <th>Hinh anh</th>
+            <th>Gia (tham khao)</th>
+            <th>Loai chung cu</th>
+            <th sec:authorize="hasRole('ADMIN')">Hanh dong</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="product : ${products}">
+            <td><span class="badge bg-light text-dark" th:text="${product.id}"></span></td>
+            <td style="font-weight:600;" th:text="${product.name}"></td>
+            <td>
+              <img th:if="${product.image != null and !#strings.isEmpty(product.image)}"
+                   height="80" width="110"
+                   th:src="@{${product.image}}" alt="anh chung cu"
+                   style="object-fit:cover; border-radius:10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+              <span th:unless="${product.image != null and !#strings.isEmpty(product.image)}"
+                    style="color:#aaa; font-size:0.85rem;"><i class="bi bi-image me-1"></i>Chua co anh</span>
+            </td>
+            <td><span style="color:#1e40af;font-weight:600;" th:text="${product.price}"></span></td>
+            <td>
+              <span class="badge" style="background:#ede9fe;color:#7c3aed;"
+                    th:text="${product.category != null} ? ${product.category.name} : ''"></span>
+            </td>
+            <td sec:authorize="hasRole('ADMIN')">
+              <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-sm" style="background:#f0f7ff;color:#1d4ed8;border-radius:8px;">
+                <i class="bi bi-pencil-square"></i> Sua
+              </a>
+              <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-sm" style="background:#fef2f2;color:#dc2626;border-radius:8px;"
+                 onclick="return confirm('Xoa chung cu nay?');">
+                <i class="bi bi-trash3"></i> Xoa
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- close .container -->
+</div><!-- close layout:fragment content -->
+</body>
+</html>

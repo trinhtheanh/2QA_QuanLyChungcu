@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quan ly chung cu - Dang nhap / Dang ky</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <style>
+        .input-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 9px;
+            border: 1px solid #d1d5db;
+            outline: none;
+            background-color: #f9fafb;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .input-group select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-wrapper">
+    <div class="brand-panel">
+        <h1>Quan ly chung cu</h1>
+        <p>He thong quan ly toa nha, can ho, cu dan mot cach truc quan.</p>
+    </div>
+
+    <div class="auth-card">
+        <div class="tabs">
+            <button class="tab-button active" data-target="#login-form">Dang nhap</button>
+            <button class="tab-button" data-target="#register-form">Dang ky</button>
+        </div>
+
+        <!-- Thong bao dang nhap -->
+        <div th:if="${param.error}" class="error-msg">Sai tai khoan hoac mat khau!</div>
+        <div th:if="${param.logout}" class="logout-msg">Ban da dang xuat thanh cong.</div>
+
+        <!-- Thong bao dang ky -->
+        <div th:if="${registerSuccess}" class="logout-msg" th:text="${registerSuccess}"></div>
+        <div th:if="${registerError}" class="error-msg" th:text="${registerError}"></div>
+
+        <!-- Form DANG NHAP -->
+        <form id="login-form" class="form-panel active" th:action="@{/do-login}" method="post">
+            <h2>Chao mung tro lai</h2>
+            <p class="subtitle">Dang nhap de quan ly chung cu cua ban.</p>
+
+            <div class="input-group">
+                <label for="login-username">Ten dang nhap</label>
+                <input id="login-username" type="text" name="username" placeholder="Nhap username" required>
+            </div>
+
+            <div class="input-group">
+                <label for="login-password">Mat khau</label>
+                <input type="password" id="login-password" name="password" placeholder="Nhap password" required>
+                <span class="toggle-password" data-target="#login-password">Hien</span>
+            </div>
+
+            <button type="submit">Dang nhap</button>
+        </form>
+
+        <!-- Form DANG KY -->
+        <form id="register-form" class="form-panel" th:action="@{/register}" method="post">
+            <h2>Tao tai khoan moi</h2>
+            <p class="subtitle">Dang ky tai khoan quan tri chung cu.</p>
+
+            <div class="input-group">
+                <label for="register-username">Ten dang nhap</label>
+                <input id="register-username" type="text" name="username" placeholder="Vi du: quanly_chungcu" required>
+            </div>
+
+            <div class="input-group">
+                <label for="register-password">Mat khau</label>
+                <input type="password" id="register-password" name="password" placeholder="Toi thieu 6 ky tu" required>
+                <span class="toggle-password" data-target="#register-password">Hien</span>
+            </div>
+
+            <div class="input-group">
+                <label for="register-confirm">Nhap lai mat khau</label>
+                <input type="password" id="register-confirm" name="confirmPassword" placeholder="Nhap lai mat khau" required>
+            </div>
+
+            <div class="input-group">
+                <label for="register-role">Quyen truy cap</label>
+                <select id="register-role" name="role" onchange="toggleChungCuId()">
+                    <option value="ROLE_USER">User - Cu dan chung cu</option>
+                    <option value="ROLE_MANAGER">Manager - Quan ly thong bao</option>
+                    <option value="ROLE_ADMIN">Admin - Quan ly chung cu</option>
+                </select>
+            </div>
+
+            <div class="input-group" id="chungCuId-group">
+                <label for="register-chungcuid">Ma chung cu (ID)</label>
+                <input id="register-chungcuid" type="number" name="chungCuId" placeholder="Nhap ID chung cu (VD: 1, 2, 3)" min="1">
+                <small style="color:#64748b;font-size:12px;margin-top:4px;">Nhap dung ID chung cu (xem trong danh sach chung cu) de lien ket tai khoan.</small>
+            </div>
+
+            <button type="submit">Dang ky</button>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/js/login.js}" defer></script>
+
+<script>
+    // Hien/an o Ma chung cu theo role
+    function toggleChungCuId() {
+        var role = document.getElementById('register-role').value;
+        var group = document.getElementById('chungCuId-group');
+        if (role === 'ROLE_USER') {
+            group.style.display = 'block';
+        } else {
+            group.style.display = 'none';
+            document.getElementById('register-chungcuid').value = '';
+        }
+    }
+    // Goi khi trang load lan dau
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleChungCuId();
+    });
+</script>
+
+<!-- Tu dong mo tab dang ky neu co loi -->
+<th:block th:if="${openRegister}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector('[data-target="#register-form"]').click();
+            toggleChungCuId();
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

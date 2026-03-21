@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div layout:fragment="content" class="container body-content">
+    <h2 class="mt-3 mb-3">&#10010; Them thong bao moi</h2>
+
+    <form th:action="@{/thongbao/save}" method="post" th:object="${thongbao}">
+
+        <div class="mb-3">
+            <label for="tieuDe" class="form-label fw-bold">Tieu de</label>
+            <input type="text" class="form-control" id="tieuDe" th:field="*{tieuDe}"
+                   placeholder="Nhap tieu de thong bao" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="noiDung" class="form-label fw-bold">Noi dung</label>
+            <textarea class="form-control" id="noiDung" th:field="*{noiDung}" rows="6"
+                      placeholder="Nhap noi dung chi tiet..." required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="loaiThongBao" class="form-label fw-bold">Loai thong bao</label>
+            <select class="form-select" id="loaiThongBao" th:field="*{loaiThongBao}" required>
+                <option value="THONG_BAO_CHUNG">&#128226; Thong bao chung</option>
+                <option value="LICH_CAT_DIEN_NUOC">&#9889; Lich cat dien / nuoc</option>
+                <option value="NOI_QUY">&#128220; Noi quy / Quy dinh</option>
+                <option value="TIN_KHAN_CAP">&#128680; Tin khan cap</option>
+            </select>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="ghim" th:field="*{ghim}">
+            <label class="form-check-label" for="ghim">&#128204; Ghim thong bao len dau</label>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Luu thong bao</button>
+            <a th:href="@{/thongbao}" class="btn btn-outline-secondary">Huy</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
