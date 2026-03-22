@@ -73,24 +73,24 @@
       <div class="schedule-table">
         <table class="table table-hover mb-0">
           <thead>
-            <tr>
-              <th style="width:10%"></th>
-              <th style="width:30%">Noi dung</th>
-              <th style="width:20%">Ngay</th>
-              <th style="width:20%">Thoi gian</th>
-              <th style="width:20%">Khu vuc</th>
-            </tr>
+          <tr>
+            <th style="width:10%"></th>
+            <th style="width:30%">Noi dung</th>
+            <th style="width:20%">Ngay</th>
+            <th style="width:20%">Thoi gian</th>
+            <th style="width:20%">Khu vuc</th>
+          </tr>
           </thead>
           <tbody>
-            <th:block th:each="tb : ${thongbaos}">
-              <tr th:if="${tb.loaiThongBao == 'LICH_CAT_DIEN_NUOC'}">
-                <td><span class="schedule-icon"><i class="bi bi-lightning-charge-fill"></i></span></td>
-                <td><strong th:text="${tb.tieuDe}"></strong></td>
-                <td><i class="bi bi-calendar3 me-1 text-muted"></i><span th:text="${#temporals.format(tb.ngayTao, 'dd/MM/yyyy')}"></span></td>
-                <td><i class="bi bi-clock me-1 text-muted"></i><span th:text="${#temporals.format(tb.ngayTao, 'HH:mm')}"></span></td>
-                <td><span class="badge" style="background:#dbeafe;color:#1d4ed8;"><i class="bi bi-geo-alt-fill me-1"></i>Toan chung cu</span></td>
-              </tr>
-            </th:block>
+          <th:block th:each="tb : ${thongbaos}">
+            <tr th:if="${tb.loaiThongBao == 'LICH_CAT_DIEN_NUOC'}">
+              <td><span class="schedule-icon"><i class="bi bi-lightning-charge-fill"></i></span></td>
+              <td><strong th:text="${tb.tieuDe}"></strong></td>
+              <td><i class="bi bi-calendar3 me-1 text-muted"></i><span th:text="${#temporals.format(tb.ngayTao, 'dd/MM/yyyy')}"></span></td>
+              <td><i class="bi bi-clock me-1 text-muted"></i><span th:text="${#temporals.format(tb.ngayTao, 'HH:mm')}"></span></td>
+              <td><span class="badge" style="background:#dbeafe;color:#1d4ed8;"><i class="bi bi-geo-alt-fill me-1"></i>Toan chung cu</span></td>
+            </tr>
+          </th:block>
           </tbody>
         </table>
       </div>
@@ -106,7 +106,7 @@
       </div>
 
       <div class="mb-3 d-flex gap-2" sec:authorize="hasRole('ADMIN')">
-        <a th:href="@{/products/add}" class="btn btn-primary" style="border-radius:10px;font-weight:600;">
+        <a th:href="@{/Apartments/add}" class="btn btn-primary" style="border-radius:10px;font-weight:600;">
           <i class="bi bi-plus-circle me-1"></i>Them chung cu moi
         </a>
         <a th:href="@{/categories/add}" class="btn btn-outline-secondary" style="border-radius:10px;font-weight:600;">
@@ -149,10 +149,10 @@
                     th:text="${product.category != null} ? ${product.category.name} : ''"></span>
             </td>
             <td sec:authorize="hasRole('ADMIN')">
-              <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-sm" style="background:#f0f7ff;color:#1d4ed8;border-radius:8px;">
+              <a th:href="@{/Apartments/edit/{id}(id=${product.id})}" class="btn btn-sm" style="background:#f0f7ff;color:#1d4ed8;border-radius:8px;">
                 <i class="bi bi-pencil-square"></i> Sua
               </a>
-              <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-sm" style="background:#fef2f2;color:#dc2626;border-radius:8px;"
+              <a th:href="@{/Apartments/delete/{id}(id=${product.id})}" class="btn btn-sm" style="background:#fef2f2;color:#dc2626;border-radius:8px;"
                  onclick="return confirm('Xoa chung cu nay?');">
                 <i class="bi bi-trash3"></i> Xoa
               </a>

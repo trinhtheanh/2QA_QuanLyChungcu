@@ -41,7 +41,7 @@
 <div layout:fragment="content" class="container body-content">
     <h2>Cap nhat thong tin chung cu</h2>
 
-    <form th:action="@{/products/save}" th:object="${product}" method="post"
+    <form th:action="@{/Apartments/save}" th:object="${product}" method="post"
           enctype="multipart/form-data" class="form">
         <input type="hidden" th:field="*{id}"/>
 
@@ -89,7 +89,7 @@
         <h4>Them loai chung cu moi</h4>
         <form th:action="@{/categories/save}" method="post">
             <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
-            <input type="hidden" name="redirect" th:value="'/products/edit/' + ${product.id}">
+            <input type="hidden" name="redirect" th:value="'/Apartments/edit/' + ${product.id}">
             <div class="form-group">
                 <label>Ten loai chung cu:</label>
                 <input type="text" name="name" class="form-control" placeholder="VD: Chung cu cao cap" required>
