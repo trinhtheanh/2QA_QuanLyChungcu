@@ -33,4 +33,8 @@ public class AccountService implements UserDetailsService {
                 authorities
         );
     }
+
+    public Account findByLoginName(String loginName) {
+        return accountRepository.findByLoginName(loginName).orElse(null);
+    }
 }

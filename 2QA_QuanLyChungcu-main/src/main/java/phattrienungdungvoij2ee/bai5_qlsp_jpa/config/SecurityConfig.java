@@ -88,12 +88,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/register", "/debug", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/login", "/register", "/debug", "/css/**", "/js/**", "/uploads/**").permitAll()
                         .requestMatchers("/thongbao/xem").hasAnyRole("USER", "ADMIN", "MANAGER")
-                        .requestMatchers("/thongbao", "/thongbao/**").hasRole("MANAGER")
+                        .requestMatchers("/thongbao", "/thongbao/**").hasAnyRole("ADMIN", "MANAGER")
                         .requestMatchers("/tintuc", "/tintuc/**").hasAnyRole("USER", "ADMIN", "MANAGER")
                         .requestMatchers("/Apartments").hasAnyRole("USER", "ADMIN", "MANAGER")
                         .requestMatchers("/Apartments/**", "/categories/**", "/services/**", "/service-categories/**").hasRole("ADMIN")
+                        .requestMatchers("/quan-ly-dich-vu/**").hasRole("ADMIN")
+                        .requestMatchers("/dich-vu/**").hasAnyRole("USER", "ADMIN", "MANAGER")
                         .anyRequest().authenticated()
                 )
                 // Cho phép form login nội bộ
@@ -114,7 +116,7 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/login?logout=true")
                         .permitAll()
                 )
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/register"));
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/register", "/quan-ly-dich-vu/**", "/dich-vu/**"));
 
         return http.build();
     }

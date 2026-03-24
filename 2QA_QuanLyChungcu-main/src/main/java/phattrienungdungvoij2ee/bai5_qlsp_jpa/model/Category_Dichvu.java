@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Entity
 @Table(name = "service_category")
@@ -15,14 +13,10 @@ public class Category_Dichvu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Tên nhóm không được để trống")
+    @NotBlank(message = "Ten nhom khong duoc de trong")
     @Column(nullable = false, length = 100)
     private String name;
 
     @Column(columnDefinition = "TEXT")
     private String description;
-
-    // 1 - N
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Dichvu> services;
 }

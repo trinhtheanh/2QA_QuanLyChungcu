@@ -13,6 +13,7 @@ import phattrienungdungvoij2ee.bai5_qlsp_jpa.model.ChungCu;
 import phattrienungdungvoij2ee.bai5_qlsp_jpa.repository.AccountRepository;
 import phattrienungdungvoij2ee.bai5_qlsp_jpa.service.CategoryService;
 import phattrienungdungvoij2ee.bai5_qlsp_jpa.service.ChungCuService;
+import phattrienungdungvoij2ee.bai5_qlsp_jpa.service.DichvuService;
 import phattrienungdungvoij2ee.bai5_qlsp_jpa.service.ThongBaoService;
 
 import java.io.File;
@@ -39,6 +40,9 @@ public class ChungCuController {
     private ThongBaoService thongBaoService;
 
     @Autowired
+    private DichvuService dichvuService;
+
+    @Autowired
     private AccountRepository accountRepository;
 
     // Thu muc luu anh: src/main/resources/static/uploads/
@@ -48,6 +52,16 @@ public class ChungCuController {
     public String listChungCus(Model model, Authentication authentication) {
         // Thong bao cho trang chu
         model.addAttribute("thongbaos", thongBaoService.getAllThongBao());
+
+        // Stat card counts for dashboard
+        model.addAttribute("totalApartments", chungCuService.getAllChungCus().size());
+        model.addAttribute("totalThongBao", thongBaoService.getAllThongBao().size());
+        model.addAttribute("totalCategories", categoryService.getAllCategories().size());
+        try {
+            model.addAttribute("totalServices", dichvuService.getAllServices().size());
+        } catch (Exception e) {
+            model.addAttribute("totalServices", 0);
+        }
 
         // Phan quyen hien thi chung cu
         boolean isAdmin = authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));

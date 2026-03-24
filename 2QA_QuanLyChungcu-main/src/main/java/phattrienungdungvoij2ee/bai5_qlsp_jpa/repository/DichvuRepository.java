@@ -6,7 +6,4 @@ import phattrienungdungvoij2ee.bai5_qlsp_jpa.model.Dichvu;
 
 @Repository
 public interface DichvuRepository extends JpaRepository<Dichvu, Long> {
-    // Có thể thêm custom query nếu cần, ví dụ:
-    // List<Dichvu> findByProvider(String provider);
-    // List<Dichvu> findByCategory_Id(Long categoryId);
 }

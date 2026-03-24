@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Nguoi dang ky dich vu</title>
+</head>
+<body>
+<div layout:fragment="content" class="container body-content">
+    <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+        <div>
+            <h2 style="font-weight:700; color:#1e293b; margin:0;">
+                <i class="bi bi-people-fill me-2" style="color:#6366f1;"></i>Nguoi dang ky
+            </h2>
+            <p class="text-muted mb-0 mt-1">Dich vu: <strong th:text="${service.name}"></strong></p>
+        </div>
+        <a th:href="@{/quan-ly-dich-vu}" class="btn btn-outline-secondary" style="border-radius:10px;">
+            <i class="bi bi-arrow-left me-1"></i>Quay lai
+        </a>
+    </div>
+
+    <div th:if="${successMsg}" class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius:10px;">
+        <i class="bi bi-check-circle-fill me-2"></i><span th:text="${successMsg}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${errorMsg}" class="alert alert-danger alert-dismissible fade show" role="alert" style="border-radius:10px;">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i><span th:text="${errorMsg}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="card" style="border:none; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0" style="border-radius:12px; overflow:hidden;">
+                <thead style="background:#f8fafc;">
+                <tr>
+                    <th style="padding:14px 16px; font-weight:600; color:#64748b; font-size:0.85rem;">STT</th>
+                    <th style="padding:14px 16px; font-weight:600; color:#64748b; font-size:0.85rem;">TEN DANG NHAP</th>
+                    <th style="padding:14px 16px; font-weight:600; color:#64748b; font-size:0.85rem;">NGAY DANG KY</th>
+                    <th style="padding:14px 16px; font-weight:600; color:#64748b; font-size:0.85rem;">SO TIEN</th>
+                    <th style="padding:14px 16px; font-weight:600; color:#64748b; font-size:0.85rem;">TRANG THAI</th>
+                    <th style="padding:14px 16px; font-weight:600; color:#64748b; font-size:0.85rem; text-align:center;">THAO TAC</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="sub, iterStat : ${subscriptions}" style="vertical-align:middle;">
+                    <td style="padding:12px 16px;" th:text="${iterStat.count}"></td>
+                    <td style="padding:12px 16px; font-weight:600;" th:text="${sub.user.login_name}"></td>
+                    <td style="padding:12px 16px; color:#64748b;" th:text="${#temporals.format(sub.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td style="padding:12px 16px;">
+                        <span th:if="${paymentMap.containsKey(sub.id)}" th:text="${#numbers.formatDecimal(paymentMap.get(sub.id).amount, 0, 'COMMA', 0, 'POINT')} + ' VND'" style="font-weight:600;"></span>
+                        <span th:unless="${paymentMap.containsKey(sub.id)}" class="text-muted">-</span>
+                    </td>
+                    <td style="padding:12px 16px;">
+                        <span th:if="${paymentMap.containsKey(sub.id) and paymentMap.get(sub.id).status == 'DA_THANH_TOAN'}"
+                              class="badge" style="background:#dcfce7; color:#16a34a; padding:6px 14px; border-radius:20px; font-weight:600;">
+                            <i class="bi bi-check-circle-fill me-1"></i>Da thanh toan
+                        </span>
+                        <span th:if="${paymentMap.containsKey(sub.id) and paymentMap.get(sub.id).status == 'CHUA_THANH_TOAN'}"
+                              class="badge" style="background:#fee2e2; color:#dc2626; padding:6px 14px; border-radius:20px; font-weight:600;">
+                            <i class="bi bi-x-circle-fill me-1"></i>Chua thanh toan
+                        </span>
+                    </td>
+                    <td style="padding:12px 16px; text-align:center;">
+                        <form th:if="${paymentMap.containsKey(sub.id)}"
+                              th:action="@{/quan-ly-dich-vu/toggle-payment/{paymentId}(paymentId=${paymentMap.get(sub.id).id})}"
+                              method="post" class="d-inline">
+                            <input type="hidden" name="serviceId" th:value="${service.id}"/>
+                            <button type="submit" class="btn btn-sm btn-outline-warning" style="border-radius:8px; padding:6px 14px;"
+                                    title="Doi trang thai thanh toan">
+                                <i class="bi bi-arrow-repeat"></i> Doi TT
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(subscriptions)}">
+                    <td colspan="6" class="text-center py-5" style="color:#94a3b8;">
+                        <i class="bi bi-person-x" style="font-size:2rem;"></i>
+                        <p class="mt-2 mb-0">Chua co ai dang ky dich vu nay</p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

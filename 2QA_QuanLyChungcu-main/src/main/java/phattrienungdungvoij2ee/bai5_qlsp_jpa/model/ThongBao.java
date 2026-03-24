@@ -33,6 +33,9 @@ public class ThongBao {
     @Column(nullable = false)
     private boolean ghim = false;
 
+    @Column(length = 100)
+    private String khuChungCu;
+
     @PrePersist
     public void prePersist() {
         if (ngayTao == null) {

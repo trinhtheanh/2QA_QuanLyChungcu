@@ -12,6 +12,18 @@
     <form th:action="@{/thongbao/save}" method="post" th:object="${thongbao}">
 
         <div class="mb-3">
+            <label for="loaiThongBao" class="form-label fw-bold">Loai thong bao</label>
+            <select class="form-select" id="loaiThongBao" th:field="*{loaiThongBao}" required
+                    onchange="toggleScheduleFields()">
+                <option value="THONG_BAO_CHUNG">&#128226; Thong bao chung</option>
+                <option value="LICH_CAT_DIEN_NUOC">&#9889; Lich cat dien nuoc</option>
+                <option value="LICH_BAO_TRI">&#128736; Lich bao tri</option>
+                <option value="NOI_QUY">&#128220; Noi quy</option>
+                <option value="TIN_KHAN_CAP">&#128680; Tin khan cap</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
             <label for="tieuDe" class="form-label fw-bold">Tieu de</label>
             <input type="text" class="form-control" id="tieuDe" th:field="*{tieuDe}"
                    placeholder="Nhap tieu de thong bao" required>
@@ -23,14 +35,31 @@
                       placeholder="Nhap noi dung chi tiet..." required></textarea>
         </div>
 
-        <div class="mb-3">
-            <label for="loaiThongBao" class="form-label fw-bold">Loai thong bao</label>
-            <select class="form-select" id="loaiThongBao" th:field="*{loaiThongBao}" required>
-                <option value="THONG_BAO_CHUNG">&#128226; Thong bao chung</option>
-                <option value="LICH_CAT_DIEN_NUOC">&#9889; Lich cat dien / nuoc</option>
-                <option value="NOI_QUY">&#128220; Noi quy / Quy dinh</option>
-                <option value="TIN_KHAN_CAP">&#128680; Tin khan cap</option>
-            </select>
+        <!-- === CAC TRUONG CHO LICH BAO TRI / CAT DIEN NUOC === -->
+        <div id="scheduleFields" style="display:none; background:#fffbeb; border:1px solid #fde68a; border-radius:10px; padding:20px; margin-bottom:16px;">
+            <h6 class="fw-bold mb-3" style="color:#92400e;"><i class="bi bi-calendar-event me-2"></i>Thong tin lich trinh</h6>
+
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label for="schedDate" class="form-label fw-bold">Ngay</label>
+                    <input type="date" class="form-control" id="schedDate" name="schedDate">
+                </div>
+                <div class="col-md-2">
+                    <label for="schedHour" class="form-label fw-bold">Gio</label>
+                    <input type="number" class="form-control" id="schedHour" name="schedHour" min="0" max="23" placeholder="HH">
+                </div>
+                <div class="col-md-2">
+                    <label for="schedMinute" class="form-label fw-bold">Phut</label>
+                    <input type="number" class="form-control" id="schedMinute" name="schedMinute" min="0" max="59" placeholder="MM">
+                </div>
+                <div class="col-md-4">
+                    <label for="khuChungCu" class="form-label fw-bold">Khu chung cu</label>
+                    <select class="form-select" id="khuChungCu" th:field="*{khuChungCu}">
+                        <option value="">-- Toan bo chung cu --</option>
+                        <option th:each="cat : ${categories}" th:value="${cat.name}" th:text="${cat.name}"></option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <div class="mb-3 form-check">
@@ -43,6 +72,19 @@
             <a th:href="@{/thongbao}" class="btn btn-outline-secondary">Huy</a>
         </div>
     </form>
+
+    <script>
+    function toggleScheduleFields() {
+        var loai = document.getElementById('loaiThongBao').value;
+        var fields = document.getElementById('scheduleFields');
+        if (loai === 'LICH_CAT_DIEN_NUOC' || loai === 'LICH_BAO_TRI') {
+            fields.style.display = 'block';
+        } else {
+            fields.style.display = 'none';
+        }
+    }
+    document.addEventListener('DOMContentLoaded', toggleScheduleFields);
+    </script>
 </div>
 </body>
 </html>

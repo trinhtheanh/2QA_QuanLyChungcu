@@ -6,105 +6,355 @@
 <head>
   <meta charset="UTF-8">
   <style>
-    .tb-card {
-      background: #fff; border-radius: 16px;
-      box-shadow: 0 4px 24px rgba(30,64,175,0.08); overflow: hidden;
-      transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column;
+    /* === WELCOME BANNER === */
+    .welcome-banner {
+      background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+      border-radius: 16px;
+      padding: 28px 32px;
+      color: #fff;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
     }
-    .tb-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(30,64,175,0.16); }
-    .tb-card .card-stripe { height: 4px; width: 100%; }
-    .tb-card .card-stripe.stripe-info { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
-    .tb-card .card-stripe.stripe-warning { background: linear-gradient(90deg, #f59e0b, #f97316); }
-    .tb-card .card-stripe.stripe-secondary { background: linear-gradient(90deg, #6b7280, #9ca3af); }
-    .tb-card .card-stripe.stripe-danger { background: linear-gradient(90deg, #dc2626, #f43f5e); }
-    .tb-card .card-inner { padding: 20px; flex: 1; display: flex; flex-direction: column; }
-    .tb-card .card-meta {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-top: auto; padding-top: 12px; border-top: 1px solid #f1f5f9;
-      font-size: 0.8rem; color: #64748b;
+    .welcome-banner::after {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -5%;
+      width: 250px;
+      height: 250px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
     }
-    .tb-card h5 { font-weight: 600; font-size: 1rem; margin-bottom: 8px; }
-    .tb-card .card-desc { font-size: 0.88rem; color: #64748b; line-height: 1.6; flex: 1; }
-    .btn-detail {
-      background: linear-gradient(135deg, #1e40af, #0ea5e9);
-      color: #fff; border: none; border-radius: 8px;
-      padding: 6px 16px; font-size: 0.8rem; font-weight: 600;
-      text-decoration: none; transition: all 0.2s;
+    .welcome-banner h2 {
+      font-weight: 700;
+      font-size: 1.4rem;
+      margin-bottom: 4px;
+      position: relative;
+      z-index: 1;
     }
-    .btn-detail:hover { color: #fff; filter: brightness(1.1); }
-    .badge-ghim {
-      background: linear-gradient(135deg, #f59e0b, #f97316);
-      color: #fff; font-size: 0.7rem; padding: 3px 8px; border-radius: 6px; font-weight: 600;
+    .welcome-banner p {
+      opacity: 0.85;
+      font-size: 0.9rem;
+      margin: 0;
+      position: relative;
+      z-index: 1;
     }
-    .schedule-table {
-      background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(30,64,175,0.08); overflow: hidden;
+
+    /* === STAT CARDS === */
+    .stat-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 22px 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.3s ease;
+      border: 1px solid #f1f5f9;
+      height: 100%;
     }
-    .schedule-table table { margin: 0; }
-    .schedule-table thead {
-      background: linear-gradient(135deg, #1e40af, #3b82f6); color: #fff;
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
     }
-    .schedule-table thead th { font-weight: 600; font-size: 0.9rem; padding: 14px 16px; border: none; }
-    .schedule-table tbody td { padding: 14px 16px; font-size: 0.9rem; vertical-align: middle; border-color: #f1f5f9; }
-    .schedule-table tbody tr:hover { background: #f0f7ff; }
-    .schedule-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      display: inline-flex; align-items: center; justify-content: center;
-      font-size: 16px; margin-right: 8px;
-      background: #fef3c7; color: #d97706;
+    .stat-card .stat-icon {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: #fff;
+      flex-shrink: 0;
     }
+    .stat-card .stat-info h3 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 2px;
+      line-height: 1;
+    }
+    .stat-card .stat-info p {
+      font-size: 0.82rem;
+      color: #64748b;
+      margin: 0;
+      font-weight: 500;
+    }
+    .stat-card .stat-info .stat-sub {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+    .stat-icon-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+    .stat-icon-emerald { background: linear-gradient(135deg, #10b981, #059669); }
+    .stat-icon-amber { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .stat-icon-violet { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+    /* === ACTIVITY SECTION === */
+    .activity-section {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      border: 1px solid #f1f5f9;
+      overflow: hidden;
+    }
+    .activity-section .section-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #f1f5f9;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .activity-section .section-header i {
+      color: #3b82f6;
+    }
+    .activity-section .section-body {
+      padding: 0;
+    }
+
+    /* === APARTMENT TABLE === */
+    .apt-table { margin: 0; }
+    .apt-table thead { background: #f8fafc; }
+    .apt-table thead th {
+      font-weight: 600; font-size: 0.82rem;
+      padding: 12px 16px; border: none;
+      color: #64748b; text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .apt-table tbody td {
+      padding: 12px 16px; font-size: 0.88rem;
+      vertical-align: middle; border-color: #f1f5f9;
+    }
+    .apt-table tbody tr:hover { background: #f8fafc; }
+
+    /* === NOTIFICATION LIST === */
+    .notif-list { list-style: none; margin: 0; padding: 0; }
+    .notif-list li {
+      padding: 14px 20px;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      transition: background 0.2s;
+    }
+    .notif-list li:hover { background: #f8fafc; }
+    .notif-list li:last-child { border-bottom: none; }
+    .notif-list .notif-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .notif-list .notif-content { flex: 1; }
+    .notif-list .notif-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 2px;
+    }
+    .notif-list .notif-date {
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+
+    /* === ADMIN SECTION === */
     .admin-section {
-      background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(30,64,175,0.08); padding: 24px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      padding: 24px;
+      border: 1px solid #f1f5f9;
+    }
+    .admin-section .section-title {
+      font-weight: 700; font-size: 1.1rem; color: #1e293b;
+      display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+    }
+    .admin-section .section-title .title-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; color: #fff;
     }
   </style>
 </head>
 <body>
 
 <div layout:fragment="content" class="container-fluid p-0">
-
-  <!-- ========== NOI DUNG CHINH ========== -->
   <div class="container" style="padding-top: 24px; padding-bottom: 40px;">
 
-    <!-- 1. LICH BAO TRI / CAT DIEN / NUOC -->
-    <div class="mt-5" th:if="${thongbaos != null}">
-      <div class="section-title">
-        <span class="title-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);"><i class="bi bi-calendar-event-fill"></i></span>
-        Lich bao tri &amp; Cat dien / Nuoc
+    <!-- ========== WELCOME BANNER ========== -->
+    <div class="welcome-banner">
+      <h2><i class="bi bi-hand-thumbs-up-fill me-2"></i>Xin chao, <span sec:authentication="name">User</span>!
+        <span sec:authorize="hasRole('ADMIN')" style="font-weight:400; font-size:0.9rem; opacity:0.85;"> (Quan tri vien)</span>
+        <span sec:authorize="hasRole('MANAGER')" style="font-weight:400; font-size:0.9rem; opacity:0.85;"> (Quan ly)</span>
+
+      </h2>
+      <p>Chao mung ban den voi he thong quan ly chung cu. Chuc ban mot ngay lam viec hieu qua!</p>
+    </div>
+
+    <!-- ========== STAT CARDS ========== -->
+    <div class="row g-3 mb-4">
+      <!-- Card 1: Tong Can Ho (chi hien cho ADMIN/MANAGER) -->
+      <div class="col-lg-3 col-md-6" sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-blue"><i class="bi bi-building"></i></div>
+          <div class="stat-info">
+            <h3 th:text="${totalApartments != null ? totalApartments : 0}">0</h3>
+            <p>Tong Can Ho</p>
+            <div class="stat-sub" th:if="${totalCategories != null}">
+              <span th:text="${totalCategories}">0</span> loai chung cu
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="schedule-table">
-        <table class="table table-hover mb-0">
-          <thead>
-            <tr>
-              <th style="width:10%"></th>
-              <th style="width:30%">Noi dung</th>
-              <th style="width:20%">Ngay</th>
-              <th style="width:20%">Thoi gian</th>
-              <th style="width:20%">Khu vuc</th>
-            </tr>
-          </thead>
-          <tbody>
-            <th:block th:each="tb : ${thongbaos}">
-              <tr th:if="${tb.loaiThongBao == 'LICH_CAT_DIEN_NUOC'}">
-                <td><span class="schedule-icon"><i class="bi bi-lightning-charge-fill"></i></span></td>
-                <td><strong th:text="${tb.tieuDe}"></strong></td>
-                <td><i class="bi bi-calendar3 me-1 text-muted"></i><span th:text="${#temporals.format(tb.ngayTao, 'dd/MM/yyyy')}"></span></td>
-                <td><i class="bi bi-clock me-1 text-muted"></i><span th:text="${#temporals.format(tb.ngayTao, 'HH:mm')}"></span></td>
-                <td><span class="badge" style="background:#dbeafe;color:#1d4ed8;"><i class="bi bi-geo-alt-fill me-1"></i>Toan chung cu</span></td>
-              </tr>
-            </th:block>
-          </tbody>
-        </table>
+      <!-- Card 2: Tong Thong Bao (chi hien cho ADMIN/MANAGER) -->
+      <div class="col-lg-3 col-md-6" sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-emerald"><i class="bi bi-bell-fill"></i></div>
+          <div class="stat-info">
+            <h3 th:text="${totalThongBao != null ? totalThongBao : 0}">0</h3>
+            <p>Tong Thong Bao</p>
+            <div class="stat-sub">Cap nhat lien tuc</div>
+          </div>
+        </div>
+      </div>
+      <!-- Card 3: Tong Dich Vu (chi hien cho ADMIN/MANAGER) -->
+      <div class="col-lg-3 col-md-6" sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-amber"><i class="bi bi-gear-fill"></i></div>
+          <div class="stat-info">
+            <h3 th:text="${totalServices != null ? totalServices : 0}">0</h3>
+            <p>Tong Dich Vu</p>
+            <div class="stat-sub">Dien, nuoc, internet...</div>
+          </div>
+        </div>
+      </div>
+      <!-- Card 4: Yeu Cau Ho Tro (chi hien cho ADMIN/MANAGER) -->
+      <div class="col-lg-3 col-md-6" sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-violet"><i class="bi bi-wrench-adjustable-circle-fill"></i></div>
+          <div class="stat-info">
+            <h3 th:text="${totalYeuCau != null ? totalYeuCau : 0}">0</h3>
+            <p>Yeu cau Ho tro</p>
+            <div class="stat-sub">Dang xu ly</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- 3. DANH SACH CHUNG CU (phan quyen) -->
-    <div class="mt-5 admin-section">
-      <div class="section-title">
-        <span class="title-icon" style="background: linear-gradient(135deg, #8b5cf6, #a855f7);"><i class="bi bi-building"></i></span>
-        <span sec:authorize="hasRole('ADMIN')">Quan ly chung cu</span>
-        <span sec:authorize="hasRole('USER')">Chung cu cua toi</span>
-        <span sec:authorize="hasRole('MANAGER')">Danh sach chung cu</span>
+    <!-- ========== TONG QUAN HOAT DONG ========== -->
+    <div class="row g-3 mb-4">
+      <!-- Col Left: Bang can ho -->
+      <div class="col-lg-8">
+        <div class="activity-section">
+          <div class="section-header">
+            <i class="bi bi-building"></i>
+            <span sec:authorize="hasRole('ADMIN')">Danh sach Can ho</span>
+            <span sec:authorize="hasRole('MANAGER')">Danh sach Can ho</span>
+            <span sec:authorize="hasRole('USER')">Can ho cua toi</span>
+            <div class="ms-auto d-flex gap-2" sec:authorize="hasRole('ADMIN')">
+              <a th:href="@{/Apartments/add}" class="btn btn-primary btn-sm" style="border-radius:8px;font-weight:600;font-size:0.8rem;">
+                <i class="bi bi-plus-circle me-1"></i>Them moi
+              </a>
+              <a th:href="@{/categories/add}" class="btn btn-outline-secondary btn-sm" style="border-radius:8px;font-weight:600;font-size:0.8rem;">
+                <i class="bi bi-tag me-1"></i>Them loai
+              </a>
+            </div>
+          </div>
+          <div class="section-body">
+            <div th:if="${products == null or #lists.isEmpty(products)}" class="text-center py-5">
+              <i class="bi bi-house-slash" style="font-size:2.5rem;color:#cbd5e1;"></i>
+              <p class="mt-2 text-muted mb-0">Khong co can ho nao de hien thi.</p>
+            </div>
+            <div class="table-responsive" th:if="${products != null and !#lists.isEmpty(products)}">
+              <table class="table apt-table mb-0">
+                <thead>
+                <tr>
+                  <th>Ma</th>
+                  <th>Ten can ho</th>
+                  <th>Hinh anh</th>
+                  <th>Gia</th>
+                  <th>Loai</th>
+                  <th sec:authorize="hasRole('ADMIN')">Thao tac</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${products}">
+                  <td><span class="badge" style="background:#eff6ff;color:#1d4ed8;font-weight:600;" th:text="${product.id}"></span></td>
+                  <td style="font-weight:600;" th:text="${product.name}"></td>
+                  <td>
+                    <img th:if="${product.image != null and !#strings.isEmpty(product.image)}"
+                         height="50" width="70"
+                         th:src="@{${product.image}}" alt="anh"
+                         style="object-fit:cover; border-radius:8px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+                    <span th:unless="${product.image != null and !#strings.isEmpty(product.image)}"
+                          style="color:#aaa; font-size:0.8rem;"><i class="bi bi-image me-1"></i>N/A</span>
+                  </td>
+                  <td><span style="color:#059669;font-weight:700;" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}"></span> <small class="text-muted">VND</small></td>
+                  <td>
+                    <span class="badge" style="background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;"
+                          th:text="${product.category != null} ? ${product.category.name} : 'N/A'"></span>
+                  </td>
+                  <td sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/Apartments/edit/{id}(id=${product.id})}" class="btn btn-sm" style="background:#eff6ff;color:#1d4ed8;border-radius:8px;font-size:0.78rem;">
+                      <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a th:href="@{/Apartments/delete/{id}(id=${product.id})}" class="btn btn-sm" style="background:#fef2f2;color:#dc2626;border-radius:8px;font-size:0.78rem;"
+                       onclick="return confirm('Xoa can ho nay?');">
+                      <i class="bi bi-trash3"></i>
+                    </a>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
 
+      <!-- Col Right: Thong bao moi nhat -->
+      <div class="col-lg-4">
+        <div class="activity-section" style="height:100%;">
+          <div class="section-header">
+            <i class="bi bi-bell-fill"></i> Thong bao moi nhat
+          </div>
+          <div class="section-body">
+            <ul class="notif-list" th:if="${thongbaos != null and !thongbaos.isEmpty()}">
+              <li th:each="tb, iter : ${thongbaos}" th:if="${iter.index < 6}">
+                <div class="notif-icon"
+                     th:style="${tb.loaiThongBao == 'TIN_KHAN_CAP'} ? 'background:#fee2e2;color:#dc2626;' :
+                               (${tb.loaiThongBao == 'LICH_CAT_DIEN_NUOC'} ? 'background:#fef3c7;color:#d97706;' :
+                               (${tb.loaiThongBao == 'NOI_QUY'} ? 'background:#f1f5f9;color:#64748b;' :
+                               'background:#dbeafe;color:#2563eb;'))">
+                  <i th:class="${tb.loaiThongBao == 'TIN_KHAN_CAP'} ? 'bi bi-exclamation-triangle-fill' :
+                               (${tb.loaiThongBao == 'LICH_CAT_DIEN_NUOC'} ? 'bi bi-lightning-charge-fill' :
+                               (${tb.loaiThongBao == 'NOI_QUY'} ? 'bi bi-journal-text' :
+                               'bi bi-info-circle-fill'))"></i>
+                </div>
+                <div class="notif-content">
+                  <div class="notif-title" th:text="${tb.tieuDe}"></div>
+                  <div class="notif-date">
+                    <i class="bi bi-calendar3 me-1"></i>
+                    <span th:text="${#temporals.format(tb.ngayTao, 'dd/MM/yyyy HH:mm')}"></span>
+                    <span th:if="${tb.ghim}" class="badge ms-1" style="background:#fef3c7;color:#92400e;font-size:0.65rem;">
+                      <i class="bi bi-pin-angle-fill"></i> Ghim
+                    </span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div th:if="${thongbaos == null or thongbaos.isEmpty()}" class="text-center py-4">
+              <i class="bi bi-bell-slash" style="font-size:2rem;color:#cbd5e1;"></i>
+              <p class="text-muted mt-2 mb-0" style="font-size:0.85rem;">Chua co thong bao</p>
+            </div>
+            <div class="text-center py-2" style="border-top:1px solid #f1f5f9;" th:if="${thongbaos != null and !thongbaos.isEmpty()}">
+              <a th:href="@{/thongbao/xem}" style="font-size:0.82rem;font-weight:600;color:#3b82f6;text-decoration:none;">
+                Xem tat ca thong bao <i class="bi bi-arrow-right"></i>
       <div class="mb-3 d-flex gap-2" sec:authorize="hasRole('ADMIN')">
         <a th:href="@{/Apartments/add}" class="btn btn-primary" style="border-radius:10px;font-weight:600;">
           <i class="bi bi-plus-circle me-1"></i>Thêm chung cư mới
@@ -154,12 +404,57 @@
                  onclick="return confirm('Xoa chung cu nay?');">
                 <i class="bi bi-trash3"></i> Xoa
               </a>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- ========== LICH BAO TRI & CAT DIEN NUOC ========== -->
+    <div class="activity-section mb-4" th:if="${thongbaos != null}">
+      <div class="section-header">
+        <i class="bi bi-calendar-event-fill" style="color:#d97706;"></i> Lich bao tri &amp; Cat dien nuoc
+      </div>
+      <div class="section-body">
+        <div class="table-responsive">
+          <table class="table apt-table mb-0">
+            <thead>
+            <tr>
+              <th style="width:8%"></th>
+              <th style="width:32%">Noi dung</th>
+              <th style="width:20%">Ngay</th>
+              <th style="width:20%">Thoi gian</th>
+              <th style="width:20%">Khu chung cu</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="tb : ${thongbaos}">
+              <tr th:if="${tb.loaiThongBao == 'LICH_CAT_DIEN_NUOC' or tb.loaiThongBao == 'LICH_BAO_TRI'}">
+                <td>
+                  <span th:if="${tb.loaiThongBao == 'LICH_CAT_DIEN_NUOC'}" style="width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:#fef3c7;color:#d97706;font-size:14px;">
+                    <i class="bi bi-lightning-charge-fill"></i>
+                  </span>
+                  <span th:if="${tb.loaiThongBao == 'LICH_BAO_TRI'}" style="width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:#e0e7ff;color:#4f46e5;font-size:14px;">
+                    <i class="bi bi-wrench-adjustable"></i>
+                  </span>
+                </td>
+                <td><strong th:text="${tb.tieuDe}"></strong></td>
+                <td><i class="bi bi-calendar3 me-1 text-muted"></i><span th:text="${#temporals.format(tb.ngayTao, 'dd/MM/yyyy')}"></span></td>
+                <td><i class="bi bi-clock me-1 text-muted"></i><span th:text="${#temporals.format(tb.ngayTao, 'HH:mm')}"></span></td>
+                <td>
+                  <span class="badge" style="background:#dbeafe;color:#1d4ed8;">
+                    <i class="bi bi-geo-alt-fill me-1"></i>
+                    <span th:text="${tb.khuChungCu != null and !#strings.isEmpty(tb.khuChungCu)} ? ${tb.khuChungCu} : 'Toan chung cu'"></span>
+                  </span>
+                </td>
+              </tr>
+            </th:block>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
   </div><!-- close .container -->
 </div><!-- close layout:fragment content -->
 </body>

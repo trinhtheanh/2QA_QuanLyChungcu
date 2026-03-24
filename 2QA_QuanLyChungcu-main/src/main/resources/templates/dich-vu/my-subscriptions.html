@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Dich vu cua toi</title>
+    <style>
+        .sub-card {
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .sub-card:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        .payment-badge-paid {
+            background: #dcfce7;
+            color: #16a34a;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .payment-badge-unpaid {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .btn-pay {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 16px;
+            font-weight: 600;
+            font-size: 0.82rem;
+            transition: all 0.3s;
+        }
+        .btn-pay:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 12px rgba(5,150,105,0.3);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content" class="container body-content">
+    <div class="mt-4 mb-4">
+        <h2 style="font-weight:700; color:#1e293b;">
+            <i class="bi bi-bookmark-star-fill me-2" style="color:#f59e0b;"></i>Dich vu cua toi
+        </h2>
+        <p class="text-muted">Cac dich vu ban da dang ky</p>
+    </div>
+
+    <div th:if="${successMsg}" class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius:10px;">
+        <i class="bi bi-check-circle-fill me-2"></i><span th:text="${successMsg}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${errorMsg}" class="alert alert-danger alert-dismissible fade show" role="alert" style="border-radius:10px;">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i><span th:text="${errorMsg}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-6" th:each="sub : ${subscriptions}">
+            <div class="card sub-card">
+                <div class="row g-0">
+                    <div class="col-4">
+                        <img th:if="${sub.serviceEntity.imageUrl != null}" th:src="@{${sub.serviceEntity.imageUrl}}"
+                             style="width:100%; height:100%; min-height:180px; object-fit:cover;" alt="service">
+                        <div th:if="${sub.serviceEntity.imageUrl == null}"
+                             style="width:100%; min-height:180px; background:linear-gradient(135deg,#e0e7ff,#f0f4ff); display:flex; align-items:center; justify-content:center;">
+                            <i class="bi bi-image" style="font-size:2rem; color:#a5b4fc;"></i>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="p-3">
+                            <h5 style="font-weight:700; margin-bottom:6px;" th:text="${sub.serviceEntity.name}"></h5>
+                            <p class="text-muted mb-2" style="font-size:0.85rem;"
+                               th:text="'Dang ky: ' + ${#temporals.format(sub.createdAt, 'dd/MM/yyyy')}"></p>
+
+                            <!-- Payment status -->
+                            <div class="mb-2" th:if="${paymentMap.containsKey(sub.id)}">
+                                <span th:if="${paymentMap.get(sub.id).status == 'DA_THANH_TOAN'}" class="payment-badge-paid">
+                                    <i class="bi bi-check-circle-fill me-1"></i>Da thanh toan
+                                </span>
+                                <span th:if="${paymentMap.get(sub.id).status == 'CHUA_THANH_TOAN'}" class="payment-badge-unpaid">
+                                    <i class="bi bi-x-circle-fill me-1"></i>Chua thanh toan
+                                </span>
+                                <div class="mt-1 text-muted" style="font-size:0.8rem;"
+                                     th:text="'So tien: ' + ${#numbers.formatDecimal(paymentMap.get(sub.id).amount, 0, 'COMMA', 0, 'POINT')} + ' VND'"></div>
+                            </div>
+
+                            <div class="d-flex gap-2 mt-2 flex-wrap">
+                                <a th:href="@{/dich-vu/{id}(id=${sub.serviceEntity.id})}"
+                                   class="btn btn-sm btn-outline-primary" style="border-radius:8px; font-size:0.82rem;">
+                                    <i class="bi bi-eye me-1"></i>Xem
+                                </a>
+
+                                <!-- Nut thanh toan gia (chi hien khi CHUA_THANH_TOAN) -->
+                                <form th:if="${paymentMap.containsKey(sub.id) and paymentMap.get(sub.id).status == 'CHUA_THANH_TOAN'}"
+                                      th:action="@{/dich-vu/pay/{paymentId}(paymentId=${paymentMap.get(sub.id).id})}"
+                                      method="post" class="d-inline">
+                                    <button type="submit" class="btn-pay"
+                                            onclick="return confirm('Xac nhan thanh toan dich vu nay?');">
+                                        <i class="bi bi-credit-card me-1"></i>Thanh toan
+                                    </button>
+                                </form>
+
+                                <form th:action="@{/dich-vu/unsubscribe/{id}(id=${sub.id})}" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" style="border-radius:8px; font-size:0.82rem;"
+                                            onclick="return confirm('Ban co chac chan muon huy dang ky?');">
+                                        <i class="bi bi-x-lg me-1"></i>Huy DK
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${#lists.isEmpty(subscriptions)}" class="col-12 text-center py-5" style="color:#94a3b8;">
+            <i class="bi bi-bookmark-x" style="font-size:3rem;"></i>
+            <p class="mt-2">Ban chua dang ky dich vu nao</p>
+            <a th:href="@{/dich-vu}" class="btn btn-primary" style="border-radius:10px; padding:10px 24px;">
+                <i class="bi bi-grid-3x3-gap me-1"></i>Kham pha dich vu
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
