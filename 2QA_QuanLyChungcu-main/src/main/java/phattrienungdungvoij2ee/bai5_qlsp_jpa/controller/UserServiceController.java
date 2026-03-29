@@ -112,7 +112,7 @@ public class UserServiceController {
             }
 
             subscriptionService.subscribe(user, dichvu);
-            redirectAttributes.addFlashAttribute("successMsg", "Dang ky dich vu thanh cong!");
+            redirectAttributes.addFlashAttribute("successMsg", "Đăng ký dịch vụ thành công!");
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("errorMsg", e.getMessage());
         }

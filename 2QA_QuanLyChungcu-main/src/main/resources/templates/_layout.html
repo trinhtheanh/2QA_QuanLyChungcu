@@ -57,7 +57,7 @@
                 <span class="avatar-sm"><i class="bi bi-person-badge-fill"></i></span>
                 <div class="overflow-hidden">
                     <p class="text-white fw-bold small mb-0 text-truncate" sec:authentication="name">Admin Name</p>
-                    <p class="text-muted mb-0" style="font-size: 0.7rem;">Quản trị viên</p>
+                    <p class="text-white mb-0" style="font-size: 0.7rem;">Quản trị viên</p>
                 </div>
             </div>
             <form th:action="@{/logout}" method="post">
@@ -93,18 +93,19 @@
     </header>
 
     <nav class="main-navbar-user">
-        <div class="container d-flex justify-content-between align-items-center">
+        <div class="container d-flex justify-content-center align-items-center">
             <ul class="nav d-flex align-items-center list-unstyled m-0 gap-1">
                 <li><a class="nav-link-tab" th:href="@{/Apartments}"><i class="bi bi-house-door"></i> Trang chủ</a></li>
                 <li><a class="nav-link-tab" th:href="@{/dich-vu}"><i class="bi bi-cpu"></i> Dịch vụ</a></li>
-                <li sec:authorize="hasAnyRole('USER','MANAGER')"><a class="nav-link-tab" th:href="@{/dich-vu/my-subscriptions}"><i class="bi bi-star"></i> Đăng ký</a></li>
-                <li sec:authorize="hasAnyRole('USER','MANAGER')"><a class="nav-link-tab" th:href="@{/hoa-don}"><i class="bi bi-receipt"></i> Hóa đơn</a></li>
+                <li sec:authorize="hasAnyRole('USER','MANAGER')">
+                    <a class="nav-link-tab" th:href="@{/dich-vu/my-subscriptions}"><i class="bi bi-star"></i> Đăng ký</a>
+                </li>
+                <li sec:authorize="hasAnyRole('USER','MANAGER')">
+                    <a class="nav-link-tab" th:href="@{/hoa-don}"><i class="bi bi-receipt"></i> Hóa đơn</a>
+                </li>
                 <li><a class="nav-link-tab" th:href="@{/tintuc}"><i class="bi bi-megaphone"></i> Tin tức</a></li>
             </ul>
-            <div class="search-container">
-                <i class="bi bi-search"></i>
-                <input type="text" placeholder="Tìm kiếm nhanh...">
-            </div>
+
         </div>
     </nav>
 

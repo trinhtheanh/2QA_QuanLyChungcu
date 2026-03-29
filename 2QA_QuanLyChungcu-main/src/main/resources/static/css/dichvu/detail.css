@@ -1,0 +1,91 @@
+:root {
+        --primary-gradient: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+        --success-gradient: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        --surface-color: #ffffff;
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --bg-body: #f8fafc;
+    }
+
+    body { background-color: var(--bg-body); color: var(--text-main); }
+
+    /* Container hiệu ứng Card nổi */
+    .service-detail-card {
+        background: var(--surface-color);
+        border-radius: 24px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        overflow: hidden;
+    }
+
+    /* Xử lý hình ảnh mượt mà */
+    .service-image-container {
+        position: relative;
+        height: 100%;
+        min-height: 400px;
+    }
+
+    .service-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    /* Price Tag hiện đại */
+    .price-badge {
+        background: var(--success-gradient);
+        color: white;
+        padding: 10px 24px;
+        border-radius: 16px;
+        display: inline-block;
+        font-weight: 800;
+        font-size: 1.25rem;
+        box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2);
+    }
+
+    /* Nút bấm đăng ký */
+    .btn-subscribe {
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        border-radius: 16px;
+        padding: 16px 40px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 100%;
+    }
+
+    .btn-subscribe:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 25px -5px rgba(67, 97, 238, 0.25);
+        color: white;
+    }
+
+    /* Bảng admin xịn hơn */
+    .admin-table {
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+    }
+
+    .admin-table thead th {
+        background: #f1f5f9;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        font-weight: 700;
+        color: #475569;
+        padding: 1.25rem 1rem;
+    }
+
+    .status-badge {
+        padding: 6px 16px;
+        border-radius: 30px;
+        font-weight: 700;
+        font-size: 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }

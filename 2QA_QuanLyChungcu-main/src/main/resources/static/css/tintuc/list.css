@@ -1,0 +1,73 @@
+body { background-color: #f1f5f9; }
+
+    .news-hero {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        border-radius: 24px; padding: 60px 40px; color: #fff;
+        margin-bottom: 40px; box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Filter Tabs hiện đại hơn */
+    .filter-tabs { display: flex; gap: 12px; margin-bottom: 35px; overflow-x: auto; padding-bottom: 10px; }
+    .filter-tab {
+        white-space: nowrap; padding: 10px 24px; border-radius: 14px;
+        background: #fff; color: #475569; font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid #e2e8f0; text-decoration: none;
+    }
+    .filter-tab:hover, .filter-tab.active {
+        background: #2563eb; color: #fff; border-color: #2563eb;
+        transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+    }
+
+    /* News Card tinh tế */
+    .news-card {
+        background: #fff; border-radius: 20px; overflow: hidden;
+        border: 1px solid #f1f5f9; transition: all 0.4s ease;
+        height: 100%; display: flex; flex-direction: column;
+    }
+    .news-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Image Area - Tối ưu Gradient bằng CSS nth-child */
+    .news-img {
+        height: 220px; position: relative; display: flex;
+        align-items: center; justify-content: center;
+    }
+    .news-img i { font-size: 4rem; color: rgba(255,255,255,0.4); z-index: 1; }
+
+    /* Auto-assign Gradients */
+    .col-lg-4:nth-child(6n+1) .news-img { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .col-lg-4:nth-child(6n+2) .news-img { background: linear-gradient(135deg, #f093fb, #f5576c); }
+    .col-lg-4:nth-child(6n+3) .news-img { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+    .col-lg-4:nth-child(6n+4) .news-img { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+    .col-lg-4:nth-child(6n+5) .news-img { background: linear-gradient(135deg, #fa709a, #fee140); }
+    .col-lg-4:nth-child(6n+6) .news-img { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+
+    .news-date {
+        position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(8px); color: #fff; padding: 6px 14px;
+        border-radius: 10px; font-size: 0.8rem; font-weight: 700;
+    }
+
+    .news-tag {
+        position: absolute; bottom: 15px; left: 15px; padding: 6px 16px;
+        border-radius: 10px; font-size: 0.75rem; font-weight: 800; color: #fff;
+        text-transform: uppercase; letter-spacing: 0.5px;
+    }
+
+    .news-body { padding: 28px; flex: 1; display: flex; flex-direction: column; }
+    .news-body h5 { font-weight: 800; color: #1e293b; line-height: 1.5; margin-bottom: 15px; }
+    .news-desc { color: #64748b; line-height: 1.8; font-size: 0.95rem; }
+
+    .news-footer {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-top: auto; padding-top: 20px;
+    }
+
+    .btn-read-more {
+        color: #2563eb; font-weight: 700; text-decoration: none;
+        display: inline-flex; align-items: center; gap: 8px; transition: 0.2s;
+    }
+    .btn-read-more:hover { gap: 12px; color: #1e40af; }

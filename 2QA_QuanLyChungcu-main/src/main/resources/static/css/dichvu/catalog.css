@@ -1,0 +1,118 @@
+:root {
+        --primary-color: #4361ee;
+        --success-color: #059669;
+        --bg-soft: #f8fafc;
+        --text-main: #1e293b;
+    }
+
+    body { background-color: var(--bg-soft); }
+
+    /* Hiệu ứng Card hiện đại */
+    .service-card {
+        border: none;
+        border-radius: 20px;
+        background: #ffffff;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Xử lý hình ảnh */
+    .img-wrapper {
+        position: relative;
+        border-radius: 20px 20px 0 0;
+        overflow: hidden;
+        height: 200px;
+    }
+
+    .service-card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .service-card:hover .service-card-img {
+        transform: scale(1.1);
+    }
+
+    .service-card-placeholder {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Badge trạng thái nổi trên ảnh */
+    .badge-floating {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(4px);
+        color: var(--success-color);
+        padding: 6px 14px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        z-index: 2;
+    }
+
+    /* Chi tiết nội dung */
+    .card-body {
+        padding: 1.5rem !important;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .service-title {
+        font-weight: 800;
+        color: var(--text-main);
+        font-size: 1.15rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.4;
+    }
+
+    .service-price {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--primary-color);
+        letter-spacing: -0.5px;
+    }
+
+    .btn-view-detail {
+        background: var(--primary-color);
+        border: none;
+        border-radius: 12px;
+        padding: 10px 20px;
+        font-weight: 700;
+        transition: all 0.3s;
+    }
+
+    .btn-view-detail:hover {
+        background: #3a0ca3;
+        box-shadow: 0 8px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    /* Category Tag nhỏ */
+    .category-tag {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #64748b;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        display: block;
+    }

@@ -5,6 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Hóa đơn</title>
+    <style>
+        .qr-image-auto {
+            image-rendering: pixelated; /* Giúp mã QR sắc nét hơn khi scale */
+            width: 100%;
+            max-width: 280px; /* Kích thước tối ưu để quét */
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 10px;
+            background: #fff;
+        }
+    </style>
+
 </head>
 <body>
 <div layout:fragment="content" class="container body-content">
@@ -95,15 +108,24 @@
                     </div>
 
                     <div th:if="${inv.status != 'GREEN'}" class="mt-4 text-center">
-                        <img th:src="@{/qr/latest}"
-                             style="width:320px; height:320px; object-fit:contain; border-radius:14px; background:#fff; padding:10px; border:1px solid #e5e7eb;"
-                             alt="QR thanh toán"/>
-                        <p class="text-muted mt-2 mb-2">Quét QR để thanh toán</p>
-                        <form th:action="@{/hoa-don/pay/{monthKey}(monthKey=${inv.monthKey})}" method="post">
-                            <button type="submit" class="btn btn-primary" style="border-radius:10px; padding:10px 22px; font-weight:700;">
-                                Đã thanh toán
-                            </button>
-                        </form>
+                        <div th:with="bankId='tpb',
+                  accountNo='10929112004',
+                  template='qr_only',
+                  amountVal=${inv.totalToPay},
+                  infoText='HOADON' + ${inv.monthKey}">
+
+                            <img th:attr="src='https://img.vietqr.io/image/' + ${bankId} + '-' + ${accountNo} + '-' + ${template} + '.png?amount=' + ${#numbers.formatDecimal(amountVal, 0, 0)} + '&addInfo=' + ${infoText}"
+                                 style="width:250px; height:250px; object-fit:contain; border-radius:14px; background:#fff; padding:10px; border:1px solid #e5e7eb;"
+                                 alt="QR thanh toán"/>
+
+                            <p class="text-muted mt-2 mb-2">Quét QR để thanh toán tự động</p>
+
+                            <form th:action="@{/hoa-don/pay/{monthKey}(monthKey=${inv.monthKey})}" method="post">
+                                <button type="submit" class="btn btn-primary shadow-sm" style="border-radius:10px; padding:10px 22px; font-weight:700;">
+                                    <i class="bi bi-shield-check me-1"></i> Xác nhận đã thanh toán
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
